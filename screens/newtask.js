@@ -12,47 +12,59 @@ export default class NewTask extends Component {
         super(props);
 
         this.state = {
-            focused: false,
+            
 
             inputFields:[{
-                placeHolder:' Task title'
+                placeHolder:' Task title',
+                focused: false,
             },
             {
-                placeHolder:' Task description'
+                placeHolder:' Task description',
+                focused: false,
             },
             {
-                placeHolder:' Project'
+                placeHolder:' Project',
+                focused: false,
             },
             {
-                placeholder:' Tag users'
+                placeHolder:' Tag users',
+                focused: false,
             },
-        ]
-}  
+        ]}  
     }
 
-    focused (focused) {
-        this.setState({focused});
+    changeStyleInput(element, isFocused){
+        var elementsInState = this.state.inputFields;
+        
+        for (el in elementsInState){
+            if (elementsInState[el].placeHolder==element.placeHolder){
+                elementsInState[el].focused=isFocused;
+            }
+        }
+
+        this.setState({inputFields:elementsInState})
     }
 
-renderInput(){
-    return (
+    renderSingleInput(element){
+        return (
             <View>
                 <TextInput
                     {...this.props}
                     editable = {true}
                     keyboardAppearance={true}
                     maxLength = {40}
+                    onBlur = {() => this.changeStyleInput(element, false)}
+                    onFocus={ () => this.changeStyleInput(element, true)}
                     placeholder={element.placeHolder}
-                    style={styles.singleInput}
+                    style={element.focused ? styles.focusedInput : styles.singleInput}
                 />
             </View>
-    )
-}
+        )
+    }
 
 
-    renderInput( element, i) {
+    render() {
         return (
-        <View key={i}>
             <View style={styles.Container}>
                 <View style={styles.closeIcon}>
                     <TouchableHighlight
@@ -66,53 +78,7 @@ renderInput(){
 
 
                 <View style={styles.inputViews}>
-                    <View>
-                        <TextInput
-                            {...this.props}
-                            editable = {true}
-                            keyboardAppearance={true}
-                            maxLength = {40}
-                            placeholder={'Title of your task'}
-                            style={styles.singleInput}
-                        />
-                    </View>
-
                     {this.renderInputs(this.state.inputFields)}
-
-                    <View>
-                        <TextInput
-                            {...this.props}
-                            editable = {true}
-                            maxLength = {40}
-                            keyboardAppearance={true}
-                            placeholder={'Description'}
-                            style={styles.singleInput}
-                        />
-                    </View>
-
-                    <View>
-                        <TextInput
-                            {...this.props}
-                            editable = {true}
-                            keyboardAppearance={true}
-                            maxLength = {40}
-                            onBlur = { (isFocused) => this.setState({focused: false}) }
-                            onFocus={ (isFocused) => this.setState({focused: isFocused}) }
-                            placeholder={'Project'}
-                            style={this.state.focused? styles.focusedInput : styles.singleInput}
-                        />
-                    </View>
-
-                    <View>
-                        <TextInput
-                            {...this.props}
-                            editable = {true}
-                            keyboardAppearance={true}
-                            maxLength = {40}
-                            placeholder={'Tag users'}
-                            style={styles.singleInput}
-                        />
-                    </View>
 
                     <View style={{marginTop:40}}>
                         <Button
@@ -122,8 +88,6 @@ renderInput(){
                     </View>
             </View>
         </View>
-    </View>
-
         )
     }
 
@@ -131,7 +95,7 @@ renderInput(){
     renderInputs(data) {
         return data.map((element, i) => {
             console.log(element, i);
-            return this.renderInput(element, i);
+            return this.renderSingleInput(element);
         })
     }
 }
