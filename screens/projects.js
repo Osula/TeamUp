@@ -24,26 +24,26 @@ export default class page2 extends React.Component {
             projects : 
                 [{
                 name:"Biology",
-                team:"Team: 4",
+                team:"4",
                 description: "DNA and health",
-                urgent: 'false',
-                date:"Due date: 20 december 2018",
+                urgent: false,
+                date:"20 december 2018",
                 image:"http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg",
                 },
                 {
                 name:"Math",
-                team:"Team: 3",
+                team:"3",
                 description: "Integers", 
-                date:"Due date: 16 december 2018",
-                urgent: 'true',
+                date:"16 december 2018",
+                urgent: true,
                 image:"https://pi.tedcdn.com/r/talkstar-assets.s3.amazonaws.com/production/playlists/playlist_251/hated_math_1200x627.jpg?quality=89&w=800",
                 },
                 {
                 name:"History",
-                team:"Team: 4",
-                urgent: 'false',
+                team:"4",
+                urgent: false,
                 description: "World war II", 
-                date:"Due date: 18 december 2018",
+                date:"18 december 2018",
                 image:"http://www.bbc.co.uk/staticarchive/75b9ec754e7b67c77e43ed6284fd9a2443dbf8eb.jpg",
                 }
             ],
@@ -58,7 +58,7 @@ export default class page2 extends React.Component {
     renderProject(element, i) {
         return (
         <View key={i}>
-            <View style={element.urgent=='false'? styles.projectContainer : styles.projectContainerUrgent}>
+            <View style={element.urgent==false ? styles.projectContainer : styles.projectContainerUrgent}>
                 <View style={styles.projectImage}>
                     <Image style={styles.projectPic} source={{uri:element.image}}>
 
@@ -74,9 +74,9 @@ export default class page2 extends React.Component {
                         <View style={styles.projectSubTitle}>
                             <Text style={styles.projectSubTitleText}>{element.description}
                             </Text>
-                            <Text style={styles.projectMembers}>{element.team}
+                            <Text style={styles.projectMembers}>Team:{element.team}
                             </Text>
-                            <Text style={styles.projectMembers}>{element.date}
+                            <Text style={styles.projectMembers}>Due date: {element.date}
                             </Text>
                         </View>
                 </View>
@@ -101,10 +101,25 @@ export default class page2 extends React.Component {
                 onRequestClose={() => {
                     alert('Modal has been closed.');
                 }}>
-                <NewProject close={() => this.setState({modalVisible: false})}/>
+                <NewProject close={(newProject) => this.addNewProject(newProject)}/>
         </Modal>
         )
     }
+
+
+    addNewProject(newProject){
+        if (newProject==undefined || newProject== null ){
+            this.setState({modalVisible: false})
+            return
+        }
+
+        var projectList = this.state.projects;
+
+        projectList.push(newProject)
+        this.setState({projects: projectList})
+        this.setState({modalVisible: false})
+    }
+    
 
     render() {
         return (
