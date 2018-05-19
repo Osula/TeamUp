@@ -7,6 +7,7 @@ import { StackNavigator } from 'react-navigation'; // Version can be specified i
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import FriendProfile from './FriendProfile';
 import NewProject from './newProject';
+import Swipeout from 'react-native-swipeout';
 
 
 export default class page2 extends React.Component {
@@ -48,6 +49,22 @@ export default class page2 extends React.Component {
                 }
             ],
             modalVisible: false,
+
+            allowVerticalScroll: true,
+
+            taskSwipeBtn : [{
+                text:'Delete',
+                backgroundColor: '#34495E',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+            }],
+            taskSwipeBtnLeft : [{
+                text:'Close',
+                margin:10,
+                backgroundColor: 'tomato',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                onPress: () => {null}
+            
+            }]
         };  
     }
 
@@ -57,32 +74,35 @@ export default class page2 extends React.Component {
 
     renderProject(element, i) {
         return (
-        <View key={i}>
-            <View style={element.urgent==false ? styles.projectContainer : styles.projectContainerUrgent}>
-                <View style={styles.projectImage}>
-                    <Image style={styles.projectPic} source={{uri:element.image}}>
+            <View key={i}>
+                <View style={{marginTop:10, marginLeft:10, marginRight:10,}}>
+                    <Swipeout buttonWidth={150} scroll={this.SwipeScrollEvent.bind(this)}left={this.state.taskSwipeBtnLeft} right={this.state.taskSwipeBtn}>
+                        <View style={element.urgent==false ? styles.projectContainer : styles.projectContainerUrgent}>
+                            <View style={styles.projectImage}>
+                                <Image style={styles.projectPic} source={{uri:element.image}}>
 
-                    </Image>
-                </View>
-                <View style={styles.projectDescription}>
-                        <View style={styles.projectTitle}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('singleproject')}>
-                                <Text style={styles.projectTitleText}>{element.name}
-                                </Text>
-                            </TouchableOpacity>
+                                </Image>
+                            </View>
+                            <View style={styles.projectDescription}>
+                                <View style={styles.projectTitle}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('singleproject')}>
+                                        <Text style={styles.projectTitleText}>{element.name}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.projectSubTitle}>
+                                    <Text style={styles.projectSubTitleText}>{element.description}
+                                    </Text>
+                                    <Text style={styles.projectMembers}>Team:{element.team}
+                                    </Text>
+                                    <Text style={styles.projectMembers}>Due date: {element.date}
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.projectSubTitle}>
-                            <Text style={styles.projectSubTitleText}>{element.description}
-                            </Text>
-                            <Text style={styles.projectMembers}>Team:{element.team}
-                            </Text>
-                            <Text style={styles.projectMembers}>Due date: {element.date}
-                            </Text>
-                        </View>
+                    </Swipeout>
                 </View>
             </View>
-
-        </View>
         );
     }
     renderProjects(data) {
@@ -91,7 +111,11 @@ export default class page2 extends React.Component {
             return this.renderProject(element, i);
         })
     }
-
+    SwipeScrollEvent(allowParentScroll) {
+        if (this.state.allowVerticalScroll != allowParentScroll) {
+            this.setState({'allowVerticalScroll': allowParentScroll})
+        }
+    }
     renderNewProjectModal() {
         return (
             <Modal
@@ -156,7 +180,6 @@ screenContainer:{
 
 projectContainer:{
     flexDirection:'row',
-    margin:10,
     height:120,
     flex:1,
     backgroundColor:'white',
@@ -164,7 +187,6 @@ projectContainer:{
 
 projectContainerUrgent:{
     flexDirection:'row',
-    margin:10,
     height:120,
     flex:1,
     backgroundColor:'white',

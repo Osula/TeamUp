@@ -14,6 +14,8 @@ import {ReadMore} from 'react-native-read-more-text';
 import chats from "./chats";
 import singlechat from './singlechat';
 import NewTask from './newtask';
+import questions from './questions';
+import contacts from './contacts';
 import {RkButton} from 'react-native-ui-kitten';
 
 const HomeStack = StackNavigator(
@@ -44,7 +46,14 @@ const HomeStack = StackNavigator(
       singlechat:{
         screen: singlechat,
       },
+      questions:{
+        screen: questions,
+      },
+      contacts:{
+        screen:contacts,
+      },
     },
+
     {
       initialRouteName: 'Profile',
     }
@@ -96,6 +105,6 @@ export default TabNavigator(
       inactiveTintColor: 'gray',
     },
     animationEnabled: true,
-    swipeEnabled: true,
+    swipeEnabled: false,
   }
 );

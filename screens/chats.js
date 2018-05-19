@@ -3,11 +3,13 @@ import { StyleSheet, video,ListView, Dimensions, ScrollView,FlatList, Platform, 
 import {Ionicons} from '@expo/vector-icons';
 import { NavigatorIOS, WebView,} from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import {EvilIcons} from '@expo/vector-icons/EvilIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {StackNavigator} from 'react-navigation';
 import FriendProfile from './FriendProfile';
 import singlechat from './singlechat';
 import { SearchBar } from 'react-native-elements';
+import Swipeout from 'react-native-swipeout';
 
 
 const {width, height} = Dimensions.get('window');
@@ -21,10 +23,12 @@ export default class page2 extends React.Component {
         super();
 
         this.state = {
+            allowVerticalScroll: true,
+            
             chats : [
                 {
                     user: "Biology",
-                    newMessageIcon: <Entypo name={'dot-single'} size={20} color={'blue'}/>,
+                    newMessageIcon: <MaterialCommunityIcons style={{marginTop:8, marginRight:5}}name={'circle'} size={10} color={'blue'}/>,
                     time:"20.35PM",
                     message:"I need some help",
                     image:"http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg",
@@ -32,7 +36,7 @@ export default class page2 extends React.Component {
                 {
                     user: "History",
                     time:"20.32PM",
-                    newMessageIcon: <Entypo name={'dot-single'} size={20} color={'blue'}/>,
+                    newMessageIcon: <MaterialCommunityIcons style={{marginTop:8, marginRight:5}}name={'circle'} size={10} color={'blue'}/>,
                     message:"So, for the intro?",
                     image:"http://www.bbc.co.uk/staticarchive/75b9ec754e7b67c77e43ed6284fd9a2443dbf8eb.jpg",
                 },
@@ -51,17 +55,33 @@ export default class page2 extends React.Component {
                     image:"http://www.damnmagazine.net/wp-content/uploads/2017/08/Unknown-6.jpeg",
                     
                 },
-            ]
+            ],
+            taskSwipeBtn : [{
+                text:<MaterialCommunityIcons name={'delete'} size={30} color={'white'}/>,
+                backgroundColor: '#34495E',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+            },
+            {
+                text:<Entypo name={'sound-mute'} size={30} color={'white'}/>,
+                backgroundColor: '#212F3C',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+
+            }],
 
         };
 
 
     }
 
-
+SwipeScrollEvent(allowParentScroll) {
+    if (this.state.allowVerticalScroll != allowParentScroll) {
+        this.setState({'allowVerticalScroll': allowParentScroll})
+    }
+}
     renderChat(element, i) {
         return (
             <View key={i}>
+            <Swipeout buttonWidth={120} scroll={this.SwipeScrollEvent.bind(this)} right={this.state.taskSwipeBtn}>
                 <View  style={[styles.newHeaderContainer , element.newMessageIcon == '' ? styles.headerContainer:{}]}>
                     <View style={styles.profilePic}>
                         <View>
@@ -94,6 +114,7 @@ export default class page2 extends React.Component {
                         </View>
                     </View>
                 </View>
+            </Swipeout>
             </View>
         )
             
@@ -109,19 +130,13 @@ export default class page2 extends React.Component {
     render() {
         return (
 
-    <ScrollView>
+    <ScrollView style={{backgroundColor:'white'}}scrollEnabled={this.state.allowVerticalScroll}>
         
             <View style={styles.addChat}>
                 <TouchableOpacity>
-                    <Entypo   name={"circle-with-plus"} size={30} color={"grey"}/>
+                    <Text style={{color:'grey', fontSize:17}}> Create new chat</Text>
                 </TouchableOpacity>
             </View>
-
-        <SearchBar
-            lightTheme
-            keyboardAppearance={true}
-            clearTextOnFocus={true}
-            placeholder='Search...' />
 
         {this.renderChats(this.state.chats)}
 
@@ -134,38 +149,30 @@ export default class page2 extends React.Component {
 
 headerContainer:{    
     flexDirection: 'row',
-    backgroundColor:'#F8F9F9',
+    backgroundColor:'white',
     borderBottomWidth:1,
-    borderRadius:10,
-    borderColor:'#F8F9F9',
-    marginLeft:10,
-    marginRight:10,
-    marginTop:10,
+    borderLeftWidth:5,
+    borderColor:'#F2F3F4',
     flex:1,
     },
     
 newHeaderContainer:{    
-        flexDirection: 'row',
-        backgroundColor:'#F8F9F9',
-        borderLeftWidth:3,
-        borderRadius:10,
-        borderColor:'blue',
-        marginLeft:10,
-        marginRight:10,
-        marginTop:10,
-        flex:1,
-        },
+    flexDirection: 'row',
+    backgroundColor:'white',
+    borderBottomWidth:1,
+    borderColor:'#F2F3F4',
+    flex:1,
+    },
 
 
 addChat:{   
     backgroundColor:'transparent',
-    borderBottomWidth:1,
-    borderColor:'#F8F9F9',
-    marginLeft:10,
+    marginBottom:10,
     marginRight:10,
     marginTop:10,
-    alignItems: 'center',
-},
+    flexDirection:'row',
+    justifyContent:'flex-end',
+  },
     
 profilePic:{
     width:80,

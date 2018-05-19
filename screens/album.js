@@ -30,7 +30,7 @@ export default class page2 extends React.Component {
                 </Image>
                 <View style={styles.UserNameView}>
                     <Text style={styles.userNameTextStyle1}>Jane Smith</Text>
-                    <Text style={styles.userNameTextStyle2}>@Jane</Text>
+                    <Text style={styles.userNameTextStyle2}>@Jane11</Text>
                 </View>
              </View>
 
@@ -43,41 +43,24 @@ export default class page2 extends React.Component {
         <View style={styles.miniMenuView}>
             <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('mytasks')}>
                 <Text style={styles.taskText}>My tasks</Text>
-                <TouchableOpacity>
-                    <Ionicons  style={styles.forwardIcon} name={"ios-arrow-forward"} size={25} color={"white"}/>
-                </TouchableOpacity>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.miniMenuSingle}>
+
+            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('questions')}>
                 <Text style={styles.taskText}>Questions</Text>
-                <TouchableOpacity>
-                    <Ionicons  style={styles.forwardIcon} name={"ios-arrow-forward"} size={25} color={"white"}/>
-                </TouchableOpacity>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('chats')}>
                 <Text style={styles.taskText}>Chats</Text>
-                <TouchableOpacity>
-                    <Ionicons  style={styles.forwardIcon} name={"ios-arrow-forward"} size={25} color={"white"}/>
-                </TouchableOpacity>
+
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('contacts')}>
+                <Text style={styles.taskText}>My contacts</Text>
+
             </TouchableOpacity>
 
         </View>
-
-    
-    
-    <View style={styles.historyContainer}>
-        <View style={styles.historyContainerBorder}>
-            
-            <Text style={styles.historyTitle}>Your history</Text>
-            <Text style={styles.historyText}>You uploaded intro.word in 'Biology' project</Text>
-            <Text style={styles.historyText}>You closed task #3 in 'Biology' project</Text>
-            <Text style={styles.historyText}>You uploaded micro.jpg 'Biology' project</Text>
-            <Text style={styles.historyText}>You created a new task in 'Biology' project</Text>
-        </View>
-    </View>
-        
-
-        
-</ScrollView>
+ 
+    </ScrollView>
 
         );
     }

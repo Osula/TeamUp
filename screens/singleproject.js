@@ -6,6 +6,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import FriendProfile from './FriendProfile';
+import ViewMoreText from 'react-native-read-more-text';
 import {RkButton} from 'react-native-ui-kitten';
 import NewTask from './newtask';
 
@@ -22,6 +23,39 @@ export default class page2 extends React.Component {
         this.state = {
             viewToRender: 'TODO',
             modalVisible: false,
+
+            SingleTodo: [{
+                taskNumber:'#1',
+                taskTitle:'Health care',
+                userTag:'@Lorem',
+                },
+                {
+                taskNumber:'#2',
+                taskTitle:'Social integration',
+                userTag:'@Ipsum',
+                },
+                {
+                taskNumber:'#6',
+                taskTitle:'Smoking and death rates',
+                userTag:'@John',
+                },
+            ],
+
+            singleClosed:[{
+                taskNumber:'#3',
+                taskTitle:'Health and food',
+                userTag:'@Lorem',
+            },
+            {
+                taskNumber:'#4',
+                taskTitle:'Health organisation',
+                userTag:'@Lorem',
+            },
+            {
+            taskNumber:'#5',
+                taskTitle:'Stress related health issues',
+                userTag:'@Lorem',
+            }]
         }
         
     }
@@ -38,13 +72,28 @@ export default class page2 extends React.Component {
                 onRequestClose={() => {
                     alert('Modal has been closed.');
                 }}>
-                <NewTask close={() => this.setState({modalVisible: false})}/>
+                <NewTask close={(newTask) => this.addNewTask(newTask)}/>
         </Modal>
         )
     }
 
-    renderClosed() {
+    addNewTask(newTask){
+        if (newTask==undefined || newTask== null ){
+            this.setState({modalVisible: false})
+            return
+        }
+
+        var newTaskList = this.state.SingleTodo;
+
+        newTaskList.push(newTask)
+        this.setState({SingleTodo: newTaskList})
+        this.setState({modalVisible: false})
+    }
+
+
+    renderClosed(element, i) {
         return (
+        <View key={i}>
             <View style={styles.ToDoList}>
                 <View style={styles.taskListTitle}>
                     <View>
@@ -54,82 +103,81 @@ export default class page2 extends React.Component {
                         <Text style={styles.closedTaskTag}>Closed by </Text>
                     </View>
                 </View>
-
-                <View style={styles.ToDoTaskList}>
-
-                    <View style={styles.TaskDescription2}>
-                        <Text style={styles.TaskNumber}>#4</Text>
-                        <Text style={styles.TaskDescription}>Health organization statistics</Text>
-                    </View>
-                    <View style={styles.ToDoTaskTag}>
-                        <Text style={styles.TaskTag}>@John</Text>
-                    </View>
-                </View>
-                <View style={styles.ToDoTaskList}>
-                    <View style={styles.TaskDescription2}>
-                        <Text style={styles.TaskNumber}>#2</Text>
-                        <Text style={styles.TaskDescription}>Definition and history</Text>
-                    </View>
-                    <View style={styles.ToDoTaskTag}>
-                        <Text style={styles.TaskTag}>@Oli</Text>
-                    </View>
-                </View>
-                <View style={styles.ToDoTaskList}>
-                    <View style={styles.TaskDescription2}>
-                        <Text style={styles.TaskNumber}>#3</Text>
-                        <Text style={styles.TaskDescription}>Project intro demo</Text>
-                    </View>
-                    <View style={styles.ToDoTaskTag}>
-                        <Text style={styles.TaskTag}>@Ipsum</Text>
-                    </View>
-                </View>
+                {this.renderSingleCloseds(this.state.singleClosed)}
             </View>
+        </View>
             );
         }
-    
 
-    renderTodo() {
+    renderSingleClosed(element, i){
+        return(
+            <View key={i}>
+                <View style={styles.ToDoTaskList}>
+
+                    <View style={styles.TaskDescription2}>
+                        <Text style={styles.TaskNumber}>{element.taskNumber}</Text>
+                        <Text style={styles.TaskDescription}>{element.taskTitle}</Text>
+                    </View>
+                    <View style={styles.ToDoTaskTag}>
+                        <Text style={styles.TaskTag}>{element.userTag}</Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
+    renderTodo(element, i) {
         return (
-        <View style={styles.ToDoList}>
-            <View style={styles.taskListTitle}>
-                <View>
-                    <Text style={styles.closedTaskTag}>Task</Text>
+        <View key={i}>
+            <View style={styles.ToDoList}>
+                <View style={styles.taskListTitle}>
+                    <View>
+                        <Text style={styles.closedTaskTag}>Task</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.closedTaskTag}>Assinged to </Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.closedTaskTag}>Assinged to </Text>
-                </View>
-            </View>
 
-            <View style={styles.ToDoTaskList}>
-                <View style={styles.TaskDescription2}>
-                    <Text style={styles.TaskNumber}>#1</Text>
-                    <Text style={styles.TaskDescription}>DNA definition and history</Text>
-                </View>
-                <View style={styles.ToDoTaskTag}>
-                    <Text style={styles.TaskTag}>@Lorem</Text>
-                </View>
-            </View>
-            <View style={styles.ToDoTaskList}>
-                <View style={styles.TaskDescription2}>
-                    <Text style={styles.TaskNumber}>#2</Text>
-                    <Text style={styles.TaskDescription}>Definition and history</Text>
-                </View>
-                <View style={styles.ToDoTaskTag}>
-                    <Text style={styles.TaskTag}>@Team</Text>
-                </View>
-            </View>
-            <View style={styles.ToDoTaskList}>
-                <View style={styles.TaskDescription2}>
-                    <Text style={styles.TaskNumber}>#3</Text>
-                    <Text style={styles.TaskDescription}>Inherited diseases</Text>
-                </View>
-                <View style={styles.ToDoTaskTag}>
-                    <Text style={styles.TaskTag}>@Ipsum</Text>
-                </View>
+               {this.renderSingleToDos(this.state.SingleTodo)}
+
             </View>
         </View>
         );
     }
+
+    renderSingleToDo(element, i){
+        return(
+        <View key={i}>
+            <View style={styles.ToDoTaskList}>
+                <View style={styles.TaskDescription2}>
+                    <Text style={styles.TaskNumber}>{element.taskNumber}</Text>
+                    <Text style={styles.TaskDescription}>{element.taskTitle}</Text>
+                </View>
+                <View style={styles.ToDoTaskTag}>
+                    <Text style={styles.TaskTag}>{element.userTag}</Text>
+                </View>
+            </View>
+        </View>
+
+        )
+    }
+
+
+    renderSingleToDos(data) {
+        return data.map((element, i) => {
+            console.log(element, i);
+            return this.renderSingleToDo(element, i);
+        })
+    }
+
+    renderSingleCloseds(data) {
+        return data.map((element, i) => {
+            console.log(element, i);
+            return this.renderSingleClosed(element, i);
+        })
+    }
+
 
     showTodo() {
         this.setState({viewToRender: 'TODO'});
@@ -138,6 +186,7 @@ export default class page2 extends React.Component {
     showClosed() {
         this.setState({viewToRender: 'CLOSED'});
     }
+
     renderNewTask() {
         return (
             <Modal
@@ -147,69 +196,77 @@ export default class page2 extends React.Component {
                 onRequestClose={() => {
                     alert('Modal has been closed.');
                 }}>
-                <NewTask close={() => this.setState({modalVisible: false})}/>
+                <NewTask close={(newTask) => this.addNewTask(newTask)}/>
         </Modal>
         )
     }
+
+
     render() {
         return (
 
-    <ScrollView >
-        <View> 
-            <Image style={styles.headerContainer} source={{uri:'http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg'}}>
-            </Image>
-        </View>
+            <ScrollView >
+                <View> 
+                    <Image style={styles.headerContainer} source={{uri:'http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg'}}>
+                    </Image>
+                </View>
+                    
+                <View style={styles.descriptionBoxTitle}>
+                    <View style={styles.projectTitle}>
+                        <Text style={styles.projectTitleStyle}>DNA and health</Text>
+                    </View>
+                
+                    <ViewMoreText
+                        numberOfLines={3}
+                        onReady={this._handleTextReady}>
+                        <Text>L'acido desossiribonucleico o deossiribonucleico è un acido nucleico che contiene le informazioni genetiche necessarie alla biosintesi di RNA e proteine, molecole...</Text>
             
-        <View style={styles.descriptionBoxTitle}>
-            <View style={styles.projectTitle}>
-                <Text style={styles.projectTitleStyle}>DNA and health</Text>
-            </View>
-            <View style={styles.projectSubTitle}>
-                <Text>L'acido desossiribonucleico o deossiribonucleico è un acido nucleico che contiene le informazioni genetiche necessarie alla biosintesi di RNA e proteine, molecole...</Text>
-            </View>
-        </View>
+                    </ViewMoreText>
 
-
-        <View style={styles.descriptionBox}>
-
-            <View style={styles.teamProject}>
-                <View style={styles.teamProjectStyle}>
-                    <Text style={styles.descriptionText}>Team:  </Text>
-                    <Text style={styles.descriptionSubText}>3</Text>
                 </View>
-            </View>
 
-            <View style={styles.dateProject}>
-                <View style={styles.dateProjectSub}>
-                    <Text style={styles.descriptionText}>Due date:</Text>
-                    <Text style={styles.descriptionSubText}>20/05/2018</Text>
-                </View>
-            </View>
 
-            <View style={styles.addTask}>
-                <View style={styles.addTaskStyle}>
-                    <Text style={styles.descriptionText} >Add task</Text>
-                    {this.renderNewTask()}
-                    <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-                        <Entypo  name={"circle-with-plus"} size={20} color={"tomato"}/>
-                    </TouchableOpacity>
+            <View style={styles.descriptionBox}>
+
+                <View style={styles.teamProject}>
+                    <View style={styles.teamProjectStyle}>
+                        <Text style={styles.descriptionText}>Team:  </Text>
+                        <Text style={styles.descriptionSubText}>3</Text>
+                    </View>
                 </View>
+
+                <View style={styles.dateProject}>
+                    <View style={styles.dateProjectSub}>
+                        <Text style={styles.descriptionText}>Due date:</Text>
+                        <Text style={styles.descriptionSubText}>20/05/2018</Text>
+                    </View>
+                </View>
+
+                <View style={styles.addTask}>
+                    <View style={styles.addTaskStyle}>
+                        <Text style={styles.descriptionText} >Add task</Text>
+                        {this.renderNewTask()}
+                        <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+                            <Entypo  name={"circle-with-plus"} size={20} color={"tomato"}/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
             </View>
 
-        </View>
-
-        <View style={styles.taskOptions}>
-            <TouchableOpacity onPress={this.showTodo.bind(this)} >
-                <View style={this.state.viewToRender == "TODO" ? styles.toDo : styles.toDoNotActive }>
-                    <Text style={styles.toDoStyle}>To-Do</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.showClosed.bind(this) } >
-                <View style={this.state.viewToRender == "TODO" ? styles.closedTask : styles.pressedStyle }>
-                    <Text style={styles.toDoStyle}>Closed</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
+            <View style={styles.taskOptions}>
+                <TouchableOpacity onPress={this.showTodo.bind(this)} >
+                    <View style={this.state.viewToRender == "TODO" ? styles.toDo : styles.toDoNotActive }>
+                        <Text style={styles.toDoStyle}>To-Do</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.showClosed.bind(this) } >
+                    <View style={this.state.viewToRender == "TODO" ? styles.closedTask : styles.pressedStyle }>
+                        <Text style={styles.toDoStyle}>Closed</Text>
+                    </View>
+                </TouchableOpacity>
+                
+            </View>
         
         {this.state.viewToRender == "TODO" ? this.renderTodo() : this.renderClosed() }
 
@@ -344,13 +401,14 @@ headerContainer:{
 },
 
 projectTitle:{
-    marginLeft:120,
+    alignItems:'center',
+    marginBottom:10,
     marginTop:10,
 },
 
 projectSubTitle:{
     marginLeft:30,
-    height:70,
+    height:80,
     marginTop:10,
 },
 
@@ -364,7 +422,7 @@ descriptionBoxTitle:{
     padding:10,
     borderBottomWidth:1,
     borderColor:'#F8F9F9',
-    height:140,
+    margin:10,
 },
 
 descriptionBox:{

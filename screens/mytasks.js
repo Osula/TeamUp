@@ -8,6 +8,7 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import FriendProfile from './FriendProfile';
 import {RkButton} from 'react-native-ui-kitten';
 import ViewMoreText from 'react-native-read-more-text';
+import Swipeout from 'react-native-swipeout';
 import { MenuProvider,  Menu, MenuOptions, MenuOption, MenuTrigger,} from 'react-native-popup-menu';
 
 
@@ -22,30 +23,72 @@ export default class page2 extends React.Component {
         super();
 
         this.state = {
+            
+            
+                allowVerticalScroll: true,
+
             tasks : [{
                     status:true,
                     id:1,
                     Title:"Cold war",
                     project:"History",
+                    dueDate:'20 May 2018',
                     description: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                    right: [{
+                        text:'Delete',
+                        backgroundColor: '#34495E',
+                        underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                        scroll:()=> {},
+                        onPress: () => { this.closeTask(1) },
+                    }]
                 },
                 {   status:true,
+                    text:'Delete',
                     id:2,
+                    dueDate:'',
                     Title:"Hidrology ",
+                    dueDate:'20 May 2018',
                     project:"Geography",
                     description: "The biological and geological future of Earth can be extrapolated based upon the estimated effects of several long-term influences. These include the chemistry at Earth's surface, the rate of cooling of the planet's interior, the gravitational interactions",
+                    right: [{
+                        text:'Delete',
+                        backgroundColor: '#34495E',
+                        underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                        scroll:()=> {},
+                        onPress: () => { this.closeTask(2) },
+                    }]
                 },
                 {   status:true,
+                    text:'Delete',
                     id:3,
+                    dueDate:'',
                     Title:"Radiology",
+                    dueDate:'20 May 2018',
                     project:"Biology",
                     description: "A novel technology to improve drinking water quality: a microbiological evaluation of in-home flocculation and chlorination in rural Guatemala · Are microbial indicators and pathogens correlated ...",
+                    right: [{
+                        text:'Delete',
+                        backgroundColor: '#34495E',
+                        underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                        onPress: () => { this.closeTask(3) },
+                    }]
                 },
-            ]
-           
+            ],
+       
+            taskSwipeBtnLeft : [{
+                text:'Close',
+                margin:10,
+                backgroundColor: 'tomato',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                onPress: () => {null}
+            
+            }]
+            
+            
         }
         
     }
+
 
 closeTask(taskId){
     var tasks = [];
@@ -56,7 +99,15 @@ closeTask(taskId){
     }
     
     this.setState({tasks:tasks})
+    
 }
+    
+
+SwipeScrollEvent(allowParentScroll) {
+        if (this.state.allowVerticalScroll != allowParentScroll) {
+            this.setState({'allowVerticalScroll': allowParentScroll})
+        }
+    }
 
 
 renderTasks(element, i){
@@ -64,49 +115,46 @@ renderTasks(element, i){
         <View key={i}>
 
             <View style={styles.ToDoTaskList}>
-                <View style={styles.card}>
-                
-                    <View style={styles.TaskDescription2}>
-                        <View>
-                            <Text style={styles.TaskNumber}>{element.Title}
-                            </Text>
+            
+                <Swipeout buttonWidth={150} left= {this.state.taskSwipeBtnLeft} scroll={this.SwipeScrollEvent.bind(this)} right={element.right}>
+                    <View style={styles.card}>
+                        
+
+                        <View style={{flex:1, alignItems:'center'}}>
+                            <Text style={styles.TaskNumber}>{element.Title}</Text>
                         </View>
-                    <View>
-                        <TouchableOpacity>
-                            <Menu >
-                                <MenuTrigger>
-                                    <Entypo name={'chevron-small-down'} size={30} color={'#566573'}/>
-                                </MenuTrigger>
-                                <MenuOptions style={{backgroundColor: 'white', alignItems:'center', paddingBottom:5,}}>
-                                    <MenuOption style={{marginLeft: 3}} onSelect={() => this.closeTask(element.id)}> 
-                                        <Text style={{color: 'blue', fontSize:17,}}>Close task </Text> 
-                                    </MenuOption>
-                                    <MenuOption onSelect={() => this.closeTask(element.id)} >
-                                        <Text style={{color: 'red', fontSize:17,}}>Delete task</Text>
-                                    </MenuOption>
-                                </MenuOptions>
-                            </Menu>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.ToDoTaskTag}>
-                        <Text style={styles.TaskTag}>{element.project}</Text>
-                    </View>
-                </View>
-                
-                    <ViewMoreText
-                        numberOfLines={2}
-                        onReady={this._handleTextReady}>
+                        
+                        <View style={styles.TaskDescription2}>
+                            <View>
 
-                        <Text style={styles.cardText}>
-                            {element.description}
-                        </Text>
-                    </ViewMoreText>
-                </View>
+                                <Text style={styles.dueDateTask}>{element.dueDate}</Text>
+                            </View>
+                        <View>
 
-            </View>
-    </View>
+                        </View>
+                            <View style={styles.ToDoTaskTag}>
+                                <Text style={styles.TaskTag}>{element.project}</Text>
+                            </View>
+                        </View>
+
+                        <ViewMoreText
+                            numberOfLines={3}
+                            onReady={this._handleTextReady}>
+
+                            <Text style={styles.cardText}>
+                                {element.description}
+                            </Text>
+                        </ViewMoreText>
+                        
+                    </View>
+                </Swipeout>
+
+             </View>
+            
+        </View>
     )
 }
+
 
 renderTask(data) {
     return data.map((element, i) => {
@@ -114,14 +162,16 @@ renderTask(data) {
         return this.renderTasks(element, i);
     })
 }
+
     render() {
         return (
 
-    <ScrollView style={{backgroundColor:'#F8F9F9'}}>
+    <ScrollView scrollEnabled={this.state.allowVerticalScroll} style={{backgroundColor:'#EBEDEF'}}>
         <MenuProvider>
-        <View> 
-            <Image style={styles.headerContainer} source={{uri:'http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg'}}>
-            </Image>
+
+        <View style={{flex:1, flexDirection:'row', justifyContent:'space-between', margin:12,}}>
+            <Text style={{color:'grey', fontSize:13}}>Due date</Text>
+            <Text style={{color:'grey', fontSize:13}}>Project</Text>
         </View>
 
          {this.renderTask(this.state.tasks)}
@@ -154,13 +204,11 @@ ToDoList:{
 
 
 card: {
-    marginHorizontal: 10,
-    marginVertical:5,
     padding: 10,
     borderRadius: 3,
     borderColor: 'rgba(0,0,0,0.1)',
     borderWidth: 1,
-    backgroundColor: 'rgba(245, 238, 248, 0.3)',
+    backgroundColor: 'white',
   },
 
   cardText: {
@@ -172,6 +220,7 @@ card: {
 ToDoTaskList:{
     flexDirection:'column',
     backgroundColor:'transparent',
+    margin:10,
 },
 
 descriptionTAsk:{
@@ -214,9 +263,16 @@ TaskTag:{
 
 TaskNumber:{
     color:'black',
-    fontSize:15,
+    fontSize:17,
     fontWeight:'bold',
     marginRight:10,
+},
+
+dueDateTask:{
+    color:'tomato',
+    fontSize:12,
+    marginRight:10,
+    marginTop:3,
 },
 
 TaskDescription:{

@@ -120,8 +120,6 @@ export default class NewProject extends Component {
                             date={this.state.date}
                             
                             />
-                    
-
 
                     <View>
                         
