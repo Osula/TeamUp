@@ -109,34 +109,28 @@ render() {
                 </View>
 
                
-                    <TouchableHighlight underlayColor={'#F8F9F9'} style={styles.dateSelection} onPress={this._showDateTimePicker}>
-                    
-                        <Text style={{color:'#BFC9CA', marginTop:25,}}>
-                            {this.state.dueDate==''? 'Select date': this.state.dueDate.toString()}
-                        </Text>
-                    
-                    </TouchableHighlight>
-
-                    <DateTimePicker
-                        isVisible={this.state.isDateTimePickerVisible}
-                        onConfirm={this._handleDatePicked}
-                        onCancel={this._hideDateTimePicker}
-                        mode='date'
-                        date={this.state.date}
-                        
-                        />
+                <TouchableHighlight underlayColor={'#F8F9F9'} style={styles.dateSelection} onPress={this._showDateTimePicker}>
                 
+                    <Text style={{color:'#BFC9CA', marginTop:25,}}>
+                        {this.state.dueDate==''? 'Select date': this.state.dueDate.toString()}
+                    </Text>
+                
+                </TouchableHighlight>
 
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDateTimePicker}
+                    mode='date'
+                    date={this.state.date}
+                    
+                />
 
-                <View>
-
-                </View>
-
-                <View style={{marginTop:40}}>
-                    <TouchableOpacity disabled={this.isFormCompleted()? false: true} onPress= {() => this.addNewTask()}>
-                        <Text style={this.isFormCompleted()? {color:'tomato', fontSize:20} : {color:'grey', fontSize:20}}>Save</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={{marginTop:40}}>
+                <TouchableOpacity disabled={this.isFormCompleted()? false: true} onPress= {() => this.addNewTask()}>
+                    <Text style={this.isFormCompleted()? {color:'tomato', fontSize:20} : {color:'grey', fontSize:20}}>Save</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     </View>
 

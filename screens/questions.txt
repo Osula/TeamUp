@@ -11,7 +11,7 @@ import ViewMoreText from 'react-native-read-more-text';
 import Swipeout from 'react-native-swipeout';
 import { MenuProvider,  Menu, MenuOptions, MenuOption, MenuTrigger,} from 'react-native-popup-menu';
 import AnswerInput from './answerInput';
-import QuestionAnswered from './questionAnswered';
+
 
 
 
@@ -26,72 +26,61 @@ export default class page2 extends React.Component {
         this.state = {
             
                 viewToRender:'answer',
-                message:'',
+
                 allowVerticalScroll: true,
-                cardVisible: true,
 
-
-                questionAnswered: [{
-
-                    question: "1 Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
-                    title:"Lorem Ipsum asked:",
-                }],
-
-                questions : [{
+            questions : [{
                     id:1,
                     title:"Lorem Ipsum asked:",
-                    cardVisible: true,
                     status:false,
                     answer:"Answer",
                     delete:'Delete',
                     date:'20 May 2018',
-                    question: "1 Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                    question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
                 },
                 {   
                     id:2,
                     title:"Lorem Ipsum asked:",
                     status:false,
-                    cardVisible: true,
                     answer:"Answer",
                     delete:'Delete',
                     date:'20 May 2018',
-                    question: "2 Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                    question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
                 },
                 {   
                     id:3,
                     title:"Lorem Ipsum asked:",
                     status:false,
-                    cardVisible: true,
                     answer:"Answer",
                     delete:'Delete',
                     date:'20 May 2018',
-                    question: "3 Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                    question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
                 },
             ],
 
             answers : [{
                 id:1,
                 title:"You answered: ",
-                edit:"Edit",
+                answer:"Edit",
                 delete:'Delete',
                 date:'20 May 2018',
-                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
             },
             {   
                 id:2,
                 title:"You answered:",
-                edit:"Edit",
+                answer:"Edit",
                 delete:'Delete',
                 date:'20 May 2018',
-                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
             },
             {   
                 id:3,
                 title:"You answered:",
-                edit:"Edit",
+                answer:"Edit",
                 delete:'Delete',
                 date:'20 May 2018',
-                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                question: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
             },
         ],
 
@@ -119,12 +108,29 @@ closeTask(questionsId){
     this.setState({questions:questions})
     
 }
-    isFormCompleted(){
-        return this.state.message != ''
+    
+ShowHideTextComponentView = () =>{
+ 
+    if(this.state.status == true)
+    {
+        this.setState({status: false})
     }
-    
+    else
+    {
+        this.setState({status: true})
+    }
+    }
+
+
+SwipeScrollEvent(allowParentScroll) {
+        if (this.state.allowVerticalScroll != allowParentScroll) {
+            this.setState({'allowVerticalScroll': allowParentScroll})
+        }
+    }
+
+
     ShowHideTextComponentView = () =>{
-    
+
         if(this.state.status == true)
         {
             this.setState({status: false})
@@ -133,65 +139,15 @@ closeTask(questionsId){
         {
             this.setState({status: true})
         }
-    }
-
-    SwipeScrollEvent(allowParentScroll) {
-        if (this.state.allowVerticalScroll != allowParentScroll) {
-            this.setState({'allowVerticalScroll': allowParentScroll})
         }
-    }
 
-    returnAnswerInputForQuestion(question, i) {
-        console.log(question.id)
-        return <AnswerInput close={(a) => {
-            console.log("calling new Answer in closure")
-            this.addNewAnswer(a)}
-         } question={question} />;
-    }
-
-    addNewAnswer(newAnswer){
-        console.log('calling addNewAnswer in questions')
-        var newAnswerList = this.state.answers;
-        console.log('pushing new answer:' + JSON.stringify(newAnswer))
-        newAnswerList.push(newAnswer)
-        console.log('updating status with new answers list')
-        this.setState({answers: newAnswerList})
-        this.setState({status: false})
-        console.log('hiding card')
-        this.setState({cardVisible: false})
-    }
-
-
-    renderToAnswer(){
-        //this.returnAnswerInputForQuestion("question?", 1);
-
-        return this.state.questions.map(this.returnAnswerInputForQuestion.bind(this))
-
-        // return this.state.questions.map((question, i) => {
-        //     return <AnswerInput />;
-        // })
-    }
-
-renderQuestionUnderAnswer(question, i){
+renderToAnswer(){
     return(
-        <View key={i}>
-            <View style={styles.cardRightQuestion}> 
-                <View style={{flex:1, alignItems:'left'}}>
-                    <Text style={styles.userName}>{question.title}</Text>
-                </View>
-                <ViewMoreText
-                    numberOfLines={2}
-                    onReady={this._handleTextReady}>
+        <AnswerInput>
 
-                    <Text style={styles.cardTextUnderQuestion}>
-                        {question.question}
-                    </Text>
-                </ViewMoreText>
-            </View>            
-        </View>
-    )   
+        </AnswerInput>
+    )
 }
-
 renderAnswered(element, i){
     return(
         <View key={i}>
@@ -211,16 +167,16 @@ renderAnswered(element, i){
                                 onReady={this._handleTextReady}>
 
                                 <Text style={styles.cardText}>
-                                    {element.answer}
+                                    {element.question}
                                 </Text>
                             </ViewMoreText>
-                            {this.renderQuestionUnderAnswers(this.state.questionAnswered)}
+                        
                         <View style={styles.TaskDescription2}>
                             <View>
                                 <Text style={styles.dueDateTask}>{element.date}</Text>
                             </View>
                             <View style={styles.answer}>
-                                <Text style={styles.TaskTag}>{element.edit}</Text>
+                                <Text style={styles.TaskTag}>{element.answer}</Text>
                             </View>
                         </View>
                         
@@ -233,27 +189,27 @@ renderAnswered(element, i){
     )
 }
 
-    showTodo() {
-        this.setState({viewToRender: 'answer'});
-    }
+showTodo() {
+    this.setState({viewToRender: 'answer'});
+}
 
-    showClosed() {
-        this.setState({viewToRender: 'answered'});
-    }
-
-    renderQuestionUnderAnswers(data){
-        return data.map((element, i) => {
-            return this.renderQuestionUnderAnswer(element, i);
-        })
-    }
+showClosed() {
+    this.setState({viewToRender: 'answered'});
+}
 
 
-    renderAnswereds(answersArray) {
-        return answersArray.map((element, i) => {
-            console.log(element, i);
-            return this.renderAnswered(element, i);
-        })
-    }
+renderAnswereds(data) {
+    return data.map((element, i) => {
+        console.log(element, i);
+        return this.renderAnswered(element, i);
+    })
+}
+renderToAnswers(data) {
+    return data.map((element, i) => {
+        console.log(element, i);
+        return this.renderToAnswer(element, i);
+    })
+}
 
     render() {
         return (
@@ -270,7 +226,7 @@ renderAnswered(element, i){
             </View>
 
 
-            {this.state.viewToRender!='answer'? this.renderAnswereds(this.state.answers) : this.renderToAnswer(this.state.questions)}
+            {this.state.viewToRender!='answer'? this.renderAnswereds(this.state.answers) : this.renderToAnswers(this.state.questions)}
     
         </MenuProvider>
 
@@ -311,25 +267,14 @@ cardRight: {
     borderRadius: 3,
     borderColor: 'rgba(0,0,0,0.1)',
     borderWidth: 1,
-    backgroundColor: 'red',
-},
-cardRightQuestion: {
-    padding: 15,
-    borderRadius: 3,
-    borderColor: 'rgba(0,0,0,0.1)',
-    borderLeftWidth:1,
     backgroundColor: 'white',
 },
 
 cardText: {
-fontSize: 15,
+fontSize: 14,
 color:'black',
 },
 
-cardTextUnderQuestion: {
-    fontSize: 13,
-    color:'grey',
-    },
 
 ToDoTaskList:{
     flexDirection:'column',

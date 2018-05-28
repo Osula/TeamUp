@@ -144,7 +144,11 @@ export default class page2 extends React.Component {
         this.setState({modalVisible: false})
     }
     
+    hideCard(visible) {
+        this.setState({cardVisible: false});
+      }
 
+      
     render() {
         return (
 

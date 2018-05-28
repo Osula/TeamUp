@@ -5,7 +5,8 @@ import { NavigatorIOS, WebView,} from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 import EvilIcons from '@expo/vector-icons/EvilIcons';
-
+import ViewMoreText from 'react-native-read-more-text'; 
+import Swipeout from 'react-native-swipeout';
 
 
 
@@ -29,13 +30,108 @@ export default class page2 extends React.Component {
         page2.navigationOptions.title = this.person.fullName();
 
         this.state = {
-            cards: ['tag1', 'tag2']
+            cards: ['tag1', 'tag2'],
+            message:'',
+
+            questionAnswered: [{
+
+                question: "1 Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+                title:"Lorem Ipsum asked:",
+            }],
+
+            answers : [{
+                id:1,
+                title: 'John answered: ',
+                date:'20 May 2018',
+                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+            },
+            {   
+                id:2,
+                title:'John answered: ',
+                delete:'Delete',
+                date:'20 May 2018',
+                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+            },
+            {   
+                id:3,
+                title:'John answered: ',
+                delete:'Delete',
+                date:'20 May 2018',
+                answer: "Con l'espressione guerra fredda si indica la contrapposizione politica, ideologica e militare che venne a crearsi intorno al 1947 (non tutti gli studiosi concordano), tra le due potenze principali emerse vincitrici dalla seconda guerra mondiale: gli Stati Uniti d'America e l'Unione Sovietica. Ben presto si giunse alla divisione ",
+            },
+        ],
         }
     }
+
+
+    renderAnswered(element, i){
+        return(
+            <View key={i}>
+                <View style={styles.ToDoTaskList}>
+                    <View style={{flex:1, alignItems:'left'}}>
+                        <Text style={styles.userNameAnswersCard}>{element.title}</Text>
+                    </View>
+
+                    <ViewMoreText
+                        numberOfLines={3}
+                        onReady={this._handleTextReady}>
+
+                        <Text style={styles.cardText}>
+                            {element.answer}
+                        </Text>
+                    </ViewMoreText>
+                    {this.renderQuestionUnderAnswers(this.state.questionAnswered)}
+                    <View style={styles.TaskDescription2}>
+                        <View>
+                            <Text style={styles.dueDateTask}>{element.date}</Text>
+                        </View>
+                    </View>
+                </View>
+            
+            </View>
+        )
+    }
+    renderQuestionUnderAnswer(question, i){
+        return(
+            <View key={i}>
+                <View style={styles.cardRightQuestion}> 
+                    <View style={{flex:1, alignItems:'left'}}>
+                        <Text style={styles.userNameQuestionCard}>{question.title}</Text>
+                    </View>
+                    <ViewMoreText
+                        numberOfLines={2}
+                        onReady={this._handleTextReady}>
+    
+                        <Text style={styles.cardTextUnderQuestion}>
+                            {question.question}
+                        </Text>
+                    </ViewMoreText>
+                </View>            
+            </View>
+        )   
+    }
+    renderAnswereds(answersArray) {
+        return answersArray.map((element, i) => {
+            console.log(element, i);
+            return this.renderAnswered(element, i);
+        })
+    }
+
+    renderQuestionUnderAnswers(data){
+        return data.map((element, i) => {
+            return this.renderQuestionUnderAnswer(element, i);
+        })
+    }
+
+    isFormCompleted(){
+        return this.state.message != '' 
+    }
+
+
     render() {
         return (
 
-    <ScrollView >
+    <ScrollView style={{backgroundColor:'white'}}>
             <View> 
                 <Image style={styles.headerContainer} source={{uri:'https://media-cdn.tripadvisor.com/media/photo-s/0f/c6/81/d3/beach.jpg'}}>
                 </Image>
@@ -51,62 +147,34 @@ export default class page2 extends React.Component {
              </View>
 
         <View style={styles.bigTextbox}>
-            <Text>The element is special relative to layout: everything inside is no longer using the flexbox layout but using text layout. This means that elements inside of are no longer rectangles, but wrap when they see the end of the line.
-
-            </Text>
+            <ViewMoreText
+                numberOfLines={3}
+                onReady={this._handleTextReady}>
+                <Text>
+                    L'acido desossiribonucleico o deossiribonucleico è un acido nucleico che contiene le informazioni genetiche necessarie alla biosintesi di RNA e proteine, molecole...
+                </Text>
+            </ViewMoreText>
         </View>
 
-               <View style={styles.miniMenuView}>
-            <TouchableOpacity style={styles.miniMenuSingle}>
-                <Text style={styles.taskText}>Ask a question</Text>
-                <TouchableOpacity>
-                    <Ionicons  style={styles.forwardIcon} name={"ios-arrow-forward"} size={25} color={"white"}/>
+        <View style={{backgroundColor:'#34495E',}}>
+            <TextInput
+                value={this.state.message}
+                onChangeText={(newText) => this.setState({message:newText})}
+                maxLength = {40}
+                keyboardAppearance={true}
+                placeholder={'Ask something...'}
+                style={styles.singleInput}
+            />
+            <View style={{alignItems:'center', marginBottom:15}}>
+                <TouchableOpacity disabled={this.state.message !=''? false: true}>
+                    <Text style={this.isFormCompleted()? {color:'tomato', fontSize:20} : {color:'white', fontSize:20}}>Send</Text>
                 </TouchableOpacity>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.miniMenuSingle}>
-                <Text style={styles.taskText}>Add to a projects</Text>
-                <TouchableOpacity>
-                    <Ionicons  style={styles.forwardIcon} name={"ios-arrow-forward"} size={25} color={"white"}/>
-                </TouchableOpacity>
-            </TouchableOpacity>
-
-        </View>
-
-    
-    
-    <View>
-        <View style={styles.QuickViewContainer}>
-            <Text style={styles.QuickViewText}>Public shares</Text>
-        </View>
-        <ScrollView horizontal={true} style={styles.QuickViewContainer}>
-        
-
-            <View style={styles.imageViewContainer}>
-
-                    <View >
-                        <Image style={styles.imageStyle} source={{uri: 'http://www.spoleto7giorni.it/wp-content/uploads/2017/12/shopping-spoleto.jpg'}}></Image>
-                    </View>
-                    <View >
-                        <Image style={styles.imageStyle} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBeBZe06UHmZ5381MpAWPDcFXms7dyA04KTevlNvIhCXxV3zV'}}></Image>
-                  
-                    </View>
-                    <View >
-                        <Image style={styles.imageStyle} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBeBZe06UHmZ5381MpAWPDcFXms7dyA04KTevlNvIhCXxV3zV'}}></Image>
-                  
-                    </View>
-                    <View >
-                        <Image style={styles.imageStyle} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBeBZe06UHmZ5381MpAWPDcFXms7dyA04KTevlNvIhCXxV3zV'}}></Image>
-                  
-                    </View>
-
-                    
             </View>
+        </View>
 
-
-        </ScrollView>
-    </View>
-        
-</ScrollView>
+        {this.renderAnswereds(this.state.answers)}
+     
+    </ScrollView>
 
         );
     }
@@ -126,10 +194,65 @@ headerContainer:{
     borderColor:'#F8F9F9',
     flex: 1, 
 },
-       
+ cardTextUnderQuestion: {
+    fontSize: 13,
+    color:'grey',
+    },
+      
 QuickViewContainer:{       
     backgroundColor:'#F2F4F4',
     paddingBottom:10,   
+},
+
+cardTextUnderQuestion: {
+    fontSize: 13,
+    color:'grey',
+    },
+
+cardRightQuestion: {
+    padding: 10,
+    marginTop:10,
+    borderRadius: 3,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderLeftWidth:1,
+    backgroundColor: 'white',
+},
+
+card: {
+    padding: 10,
+    borderRadius: 3,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 1,
+    backgroundColor: 'white',
+},
+
+singleInput:{
+    backgroundColor:'white',
+    borderRadius:5,
+    borderWidth:1,
+    borderColor:'#99A3A4',
+    height:50,
+    padding:5,
+    flex:1,
+    margin:10,
+    marginBottom:10,
+    
+},
+
+ToDoTaskList:{
+    flexDirection:'column',
+    backgroundColor:'#F2F4F4',
+    margin:10,
+    padding:10,
+    borderBottomWidth:1,
+    borderColor:'white',
+},
+
+dueDateTask:{
+    color:'#34495E',
+    fontSize:12,
+    marginRight:10,
+    marginTop:10,
 },
        
 QuickViewText:{
@@ -211,9 +334,6 @@ bigTextbox:{
     borderColor:'#F8F9F9',
 },
        
-miniMenuView:{
-    flexDirection:'column',
-    },
 
 miniMenuSingle:{
     flexDirection:'row',
@@ -221,7 +341,7 @@ miniMenuSingle:{
     backgroundColor:'#212F3C',
     height:60,
     borderBottomWidth:1,
-    borderColor:'#E5E7E9',
+    borderColor:'#5D6D7E',
     paddingTop:20,
     paddingLeft:20,
     paddingRight:20,
@@ -252,6 +372,18 @@ userName:{
     marginLeft:70,
     padding:5,
     marginTop:-40,
+},
+userNameAnswersCard:{
+    color:'#34495E',
+    fontSize:15,
+    fontWeight:'bold',
+    marginRight:10,
+},
+userNameQuestionCard:{
+    color:'#34495E',
+    fontSize:13,
+    fontWeight:'bold',
+    marginRight:10,
 },
        
 UserNameView:{

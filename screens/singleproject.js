@@ -187,20 +187,6 @@ export default class page2 extends React.Component {
         this.setState({viewToRender: 'CLOSED'});
     }
 
-    renderNewTask() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {
-                    alert('Modal has been closed.');
-                }}>
-                <NewTask close={(newTask) => this.addNewTask(newTask)}/>
-        </Modal>
-        )
-    }
-
 
     render() {
         return (
