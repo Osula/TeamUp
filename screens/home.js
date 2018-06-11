@@ -17,6 +17,10 @@ import NewTask from './newtask';
 import questions from './questions';
 import contacts from './contacts';
 import {RkButton} from 'react-native-ui-kitten';
+import searchInput from './searchInput';
+import settings from './settings';
+import newChat from './newChat';
+import createChat from './createChat';
 
 const HomeStack = StackNavigator(
     {
@@ -46,12 +50,24 @@ const HomeStack = StackNavigator(
       singlechat:{
         screen: singlechat,
       },
+      newChat:{
+        screen: newChat,
+      },
+      createChat:{
+        screen: createChat,
+      },
       questions:{
         screen: questions,
       },
       contacts:{
         screen:contacts,
       },
+      searchInput:{
+        screen: searchInput,
+      },
+      settings:{
+        screen:settings
+      }
     },
 
     {

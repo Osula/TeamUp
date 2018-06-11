@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, video,ListView, ScrollView,FlatList, Platform, fontWeight, Image, backgroundColor, Text, fontFamily, fontSize, View, Button, TouchableHighlight, TextInput, TouchableOpacity, Alert,} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { NavigatorIOS, WebView,} from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 import EvilIcons from '@expo/vector-icons/EvilIcons';
+import Octicons from '@expo/vector-icons/Octicons';
 import FriendProfile from './FriendProfile';
 import singlechat from './singlechat';
 import {RkButton} from 'react-native-ui-kitten';
+import SearchInput from './searchInput';
+import ViewMoreText from 'react-native-read-more-text';
 
 
 
@@ -18,15 +22,15 @@ export default class page2 extends React.Component {
     render() {
         return (
 
-    <ScrollView >
+    <ScrollView style={{backgroundColor:'white'}}>
                <View> 
-                    <Image style={styles.headerContainer} source={{uri:'https://media-cdn.tripadvisor.com/media/photo-s/0f/c6/81/d3/beach.jpg'}}>
+                    <Image style={styles.headerContainer} source={{uri:'https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=334247d4893b40898bd1f74282aaada9&auto=format&fit=crop&w=750&q=80'}}>
                     </Image>
                 </View>
 
              <View style={styles.userName}>
                 <Image style={styles.profilepic} 
-                    source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnwF8rzUnQyLGUgRmeUExUkD_pEaunReBXBilBa6EBbSkogQNY-w'}}>
+                    source={{uri: 'https://mahasiswigoblog.files.wordpress.com/2016/06/jj.jpg?w=282&h=283'}}>
                 </Image>
                 <View style={styles.UserNameView}>
                     <Text style={styles.userNameTextStyle1}>Jane Smith</Text>
@@ -35,28 +39,42 @@ export default class page2 extends React.Component {
              </View>
 
         <View style={styles.bigTextbox}>
-            <Text>The element is special relative to layout: everything inside is no longer using the flexbox layout but using text layout. This means that elements inside of are no longer rectangles, but wrap when they see the end of the line.
-
-            </Text>
+            <ViewMoreText
+                numberOfLines={3}
+                onReady={this._handleTextReady}>
+                <Text>
+                    The element is special relative to layout: everything inside is no longer using the flexbox layout but using text layout. This means that elements inside of are no longer rectangles, but wrap when they see the end of the line.
+                </Text>
+            </ViewMoreText>
         </View>
 
         <View style={styles.miniMenuView}>
-            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('mytasks')}>
-                <Text style={styles.taskText}>My tasks</Text>
-            </TouchableOpacity>
+            <View style={{marginRight:10}}>
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('mytasks')}>
+                    <FontAwesome name={'tasks'} color={'#5D6D7E'} size={50}/>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('questions')}>
-                <Text style={styles.taskText}>Questions</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('questions')}>
+                    <FontAwesome name={'question-circle-o'} size={50} color={'#5D6D7E'}/>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('chats')}>
-                <Text style={styles.taskText}>Chats</Text>
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('chats')}>
+                    <Entypo size={50} color={'#5D6D7E'} name={'chat'}/>
+                </TouchableOpacity>
+            </View>
+            <View style={{marginLeft:10}}>
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('searchInput')}>
+                    <FontAwesome name={'search'} size={50} color={'#5D6D7E'}/>
+                </TouchableOpacity>
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('contacts')}>
-                <Text style={styles.taskText}>My contacts</Text>
-
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('contacts')}>
+                    <Ionicons name={'ios-contacts'} size={50} color={'#5D6D7E'}/>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('settings')}>
+                    <Ionicons name={'md-settings'} color={'#5D6D7E'} size={50}/> 
+                </TouchableOpacity>
+            </View>
 
         </View>
  
@@ -78,39 +96,9 @@ screenContainer:{
 headerContainer:{    
     height:100,
     borderBottomWidth:1,
-    borderColor:'#F8F9F9',
+    borderColor:'white',
     flex: 1, 
     },
-
-historyContainer:{
-    
-    backgroundColor:'#F2F4F4',
-},
-
-historyContainerBorder:{
-    
-    backgroundColor:'#F2F4F4',
-    borderLeftWidth:1,
-    borderColor:'#D7DBDD',
-    marginLeft:20,
-
-},
-
-historyTitle:{
-    color:'#BDC3C7',
-    fontSize:18,
-    marginLeft:20,
-    marginTop:10,
-    
-},
-historyText:{
-    color:'#BDC3C7',
-    fontSize:13,
-    marginLeft:20,
-    marginTop:10,
-    fontWeight:'300',
-    
-},
 
 profilepic:{
     width:90,
@@ -134,34 +122,38 @@ TaskTag:{
 },
     
 bigTextbox:{
-
-     padding:20,
-     borderBottomWidth:1,
-    borderColor:'#F8F9F9',
-     height:140,
-    },
+    padding:20,
+    borderBottomWidth:2,
+    borderColor:'#EAECEE',
+    backgroundColor:'white',
+    height:140,
+},
 
 miniMenuView:{
-    flexDirection:'column',
-
-
-},
-miniMenuSingle:{
     flexDirection:'row',
-    justifyContent: 'space-between',
-    backgroundColor:'#212F3D',
-    height:60,
-    borderBottomWidth:1,
-    borderColor:'#34495E',
-    paddingTop:20,
-    paddingLeft:20,
-    paddingRight:20,
+    paddingLeft:25,
+    backgroundColor:'white',
+    paddingBottom:20,
+},
+
+miniMenuSingle:{
+    flexDirection:'column',
+    backgroundColor:'white',
+    height:120,
+    alignItems:'center',
+    paddingTop:30,
+    borderWidth:1,
+    borderColor:'#EAECEE',
+    width:150,
+    marginTop:10,
+    padding:20,
     
 },
 taskText:{
     fontSize:20,
     color:'white',
     fontWeight:'bold',
+    margin:20,
 },
 
 UploadView:{

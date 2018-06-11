@@ -8,22 +8,35 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { ImagePicker } from 'expo';
 import moment from 'moment';
+import CameraRollPicker from 'react-native-camera-roll-picker';
 
 export default class NewProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-                title: '',
-                description:'',
-                team:'',
-                dueDate:'',
-                image:'https://www.downtownmission.com/wp-content/uploads/2017/04/Picture1.jpg',
-                focusedTitle: false,
-                focusedDescription: false,
-                focusedDueDate: false,
-                focusedTeam: false,
-                isDateTimePickerVisible: false,
+            right: [{
+                text:'Delete',
+                backgroundColor: '#34495E',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                scroll:()=> {},
+                onPress: () => { this.closeProject(4) },
+            }],
+            title: '',
+            description:'',
+            team:'',
+            subtitle:'',
+            dueDate:'',
+            id:4,
+            focusedTitle: false,
+            focusedDescription: false,
+            focusedSubtitle: false,
+            focusedDueDate: false,
+            focusedTeam: false,
+            isDateTimePickerVisible: false,
+            modalVisible: false,
+            saveImageButtonVisible: false,
+            selected: '',
+            num: 0,       
         }
 
     }  
@@ -37,7 +50,64 @@ export default class NewProject extends Component {
       this._hideDateTimePicker();
     };
 
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+      }
 
+
+    renderImageSelectedModal() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                    alert('Modal has been closed.');
+                }}>
+                <TouchableHighlight style={{height:50,backgroundColor:'black'}} 
+                        onPress={() => {this.props.close()}}>
+                        <Text style={{color:'blue', backgroundColor:'black', fontSize:20, marginLeft:20, marginTop:20, marginBottom:10}}> Cancel </Text>
+                     </TouchableHighlight>
+                <CameraRollPicker
+                    callback={this.getSelectedImages.bind(this)}
+                    selectSingleItem={true}
+                    imageMargin={2}
+                    backgroundColor={'black'}
+                />
+
+                    {this.state.num != 0? this.renderSaveButton(): null}
+
+            </Modal>
+        )
+    }
+
+
+renderSaveButton(){
+    return(
+
+        <TouchableOpacity onPress={() => this.newImage()} style={{backgroundColor:'black', height:50}}>
+            <Text style={{color:'tomato', fontSize:18, marginLeft:30, marginTop:10}}>Save selected image </Text>
+        </TouchableOpacity>
+
+    )
+}
+
+newImage(){
+    this.setState({
+        image:this.state.selected,
+        modalVisible: false
+    })
+}
+
+
+    getSelectedImages(image, current) {
+        var num = image.length;
+    
+        this.setState({
+          num: num,
+          selected: image,
+        });
+    }
 
     render() {
         return (
@@ -74,6 +144,21 @@ export default class NewProject extends Component {
                     <View>
                         <TextInput
                             {...this.props}
+                            value={this.state.subtitle}
+                            onChangeText={(newText) => this.setState({subtitle:newText})}
+                            onFocus= {() => this.setState({focusedSubtitle: true})}
+                            onBlur= {() => this.setState({focusedSubtitle:false})}
+                            editable = {true}
+                            maxLength = {40}
+                            keyboardAppearance={true}
+                            placeholder={'Subtitle'}
+                            style={this.state.focusedSubtitle ? styles.focusedInput: styles.singleInput}
+                        />
+                    </View>
+
+                    <View>
+                        <TextInput
+                            {...this.props}
                             value={this.state.description}
                             onChangeText={(newText) => this.setState({description:newText})}
                             onFocus= {() => this.setState({focusedDescription: true})}
@@ -81,7 +166,7 @@ export default class NewProject extends Component {
                             editable = {true}
                             maxLength = {40}
                             keyboardAppearance={true}
-                            placeholder={'Subtitle'}
+                            placeholder={'Description'}
                             style={this.state.focusedDescription ? styles.focusedInput: styles.singleInput}
                         />
                     </View>
@@ -109,7 +194,7 @@ export default class NewProject extends Component {
                             <Text style={{color:'#BFC9CA', marginTop:25,}}>
                                 {this.state.dueDate==''? 'Select date': this.state.dueDate.toString()}
                             </Text>
-                        
+                            
                         </TouchableHighlight>
 
                         <DateTimePicker
@@ -123,16 +208,17 @@ export default class NewProject extends Component {
 
                     <View>
                         
-                        <View style={{flexDirection:'row', marginLeft:10, marginTop:20,}}>
+                        <View style={{flexDirection:'row', marginLeft:10, marginTop:10,}}>
                             
-                            <TouchableOpacity onPress={this._pickImage}>
-                                <View style = {{backgroundColor: '#E5E7E9', width:80, height:40, alignItems: 'center', 
-                                    justifyContent: 'center', borderRadius: 5}}>
+                            <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+                                <View style = {{backgroundColor: '#E5E7E9', width:80, height:40, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}>
                                     <Entypo name={'folder-images'} color={'#99A3A4'}size={18}/>
-                                    <Text style={{color:'#99A3A4', fontSize:10, fontWeight:'bold', marginTop:2}}>Select image</Text>
+                                    <Text style={{color:'#99A3A4', fontSize:10, fontWeight:'bold', marginTop:2}}> {this.state.selected==''? 'Select image': 'Selected'} </Text>
+                                    {this.renderImageSelectedModal()}          
                                 </View>
                             </TouchableOpacity>
 
+                            
 
                         </View>
                     </View>
@@ -157,13 +243,18 @@ export default class NewProject extends Component {
             return
         }
 
+        console.log("sel: " + this.state.selected);
+
         var newProject = {}
         newProject.name=this.state.title
         newProject.date=this.state.dueDate
         newProject.description=this.state.description
         newProject.urgent= false
-        newProject.image=this.state.image
+        newProject.id=this.state.id
+        console.log()
+        newProject.image=this.state.selected[0].uri
         newProject.team=this.state.team
+        newProject.right=this.state.right
         this.props.close(newProject)
     }
 }

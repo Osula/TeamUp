@@ -163,21 +163,22 @@ const styles = StyleSheet.create({
 
 
 Container:{
-flex:1,
-flexDirection:'column',
-backgroundColor:'white',
+    flex:1,
+    flexDirection:'column',
+    backgroundColor:'white',
 
 },
 
 closeIcon:{
-marginTop:40,
-marginLeft:10,
-height:30,
+    marginTop:40,
+    marginLeft:10,
+    height:30,
 
 },
+
 pageTitle:{
-marginTop:30,
-alignItems:'center',
+    marginTop:30,
+    alignItems:'center',
 },
 
 pageText:{
@@ -186,47 +187,47 @@ color:'#005b71',
 },
 
 inputViews:{
-alignItems:'center',
-padding:20,
+    alignItems:'center',
+    padding:20,
 },
+
 focusedInput:{
-backgroundColor:'transparent',
-borderRadius:5,
-borderBottomWidth:1,
-borderColor:'tomato',
-height:60,
-width:300,
-margin:20,
+    backgroundColor:'transparent',
+    borderRadius:5,
+    borderBottomWidth:1,
+    borderColor:'tomato',
+    height:60,
+    width:300,
+    margin:20,
 },
 
 dateSelection:{
-margin:20,
-height:60,
-width:250,
-backgroundColor:'transparent',
-borderRadius:5,
-borderBottomWidth:2,
-borderColor:'#99A3A4',
-margin:20,
-alignItems:'center',
+    margin:20,
+    height:60,
+    width:250,
+    backgroundColor:'transparent',
+    borderRadius:5,
+    borderBottomWidth:2,
+    borderColor:'#99A3A4',
+    margin:20,
+    alignItems:'center',
 },
 
 singleInput:{
-backgroundColor:'transparent',
-borderRadius:5,
-borderBottomWidth:2,
-borderColor:'#99A3A4',
-height:50,
-width:250,
-margin:10,
-
+    backgroundColor:'transparent',
+    borderRadius:5,
+    borderBottomWidth:2,
+    borderColor:'#99A3A4',
+    height:50,
+    width:250,
+    margin:10,
 },
 
 inputText:{
-color:'white',
-fontSize:15,
-fontWeight:'bold',
-marginTop:10,
+    color:'white',
+    fontSize:15,
+    fontWeight:'bold',
+    marginTop:10,
 },
 
 })

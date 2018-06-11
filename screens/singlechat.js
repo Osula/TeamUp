@@ -8,6 +8,7 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import {StackNavigator} from 'react-navigation';
 import FriendProfile from './FriendProfile';
 import singlechat from './singlechat';
+import {RkAvoidKeyboard, RkButton, RkTextInput} from 'react-native-ui-kitten';
   
 
 const {width, height} = Dimensions.get('window');
@@ -22,6 +23,8 @@ export default class page2 extends React.Component {
         super();
 
         this.state = {
+
+            hasFocus: false,
             cards : [
                 {
                     tag:"John",
@@ -49,6 +52,10 @@ export default class page2 extends React.Component {
             };  
      }
 
+
+     setFocus (hasFocus) {
+        this.setState({hasFocus});
+    }
      async sendMessage() {
 
 
@@ -89,7 +96,7 @@ export default class page2 extends React.Component {
     //foo
     renderCard(element, i) {
         return (
-            <View key={i}>
+            <View key={i} style={{backgroundColor:'white',}}>
                 <Text style={element.tag == 'Me' ? styles.tagMe : styles.tag1}> {element.tag}</Text>
                     <View style={element.tag == 'Me' ? styles.headerContainerRight : styles.headerContainer}>
 
@@ -123,46 +130,38 @@ export default class page2 extends React.Component {
 
     render() {
         return (
-            <MenuProvider>
-                <View style={{backgroundColor:'white', flex:1}}>
-                <ScrollView >
-
+            <View style={{flex:1, backgroundColor:'white'}}>
+                <ScrollView style={this.state.hasFocus? style={marginBottom:240} : style={marginBottom:20}}>
                     {this.renderCards(this.state.cards)}
-                    
-                
                 </ScrollView>
-                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={90} style={styles.inputArea} >
-                    <View style={{flexDirection: 'row', height: 60, backgroundColor:'transparent', flex:1}}>
-                        <TouchableOpacity>
-                            <Menu style={{marginLeft:20,}} >
-                                <MenuTrigger>
-                                    <Entypo name={'plus'} size={25} color={'#005b71'} style={{ marginTop:20, marginLeft:-20, marginRight:10, position:'absolute'}}/>
-                                </MenuTrigger>
-                                <MenuOptions style={{backgroundColor: 'white', alignItems:'center', paddingBottom:5,}}>
-                                    <MenuOption style={{marginLeft: 3}} onSelect={() => alert('hi')}> 
-                                        <Text style={{color: '#005b71', fontSize:17,}}>Add file</Text> 
-                                    </MenuOption>
-                                    <MenuOption onSelect={() => alert('hi')}>
-                                        <Text style={{color: '#005b71', fontSize:17,}}>Add image</Text>
-                                    </MenuOption>
-                                </MenuOptions>
-                            </Menu>
-                        </TouchableOpacity>
-                        <TextInput
-                            placeholder={' Your message...'}
-                            value={this.state.message}
-                            fontSize={17}
-                            multiline={true}
-                            style={{height: 40, width: 260, marginLeft:30, marginTop:15, borderRadius:5, borderBottomWidth:1, borderBottomColor:'#005b71', backgroundColor:'transparent',}}
-                            onChangeText={text => this.setState({message: text})}
-                        />
-                        <TouchableOpacity disabled={this.state.message==''} onPress={this.sendMessage.bind(this)}>
-                            <Text style={this.state.message!='' ? styles.sendButton : styles.sendDisabled}>Send</Text>
-                        </TouchableOpacity>
-                    </View>
-                 </KeyboardAvoidingView >
-        </View>
-    </MenuProvider>
+                <RkAvoidKeyboard>
+                    <RkTextInput
+                        value={this.state.message}
+                        multiline = {true}
+                        placeholder={'Write a message'}
+                        onFocus={this.setFocus.bind(this, true)}
+                        onBlur={this.setFocus.bind(this, false)}
+                            inputStyle={{
+                                position:'absolute', marginTop:420,
+                                backgroundColor: 'white',
+                                height:50,
+                                width:350,
+                                color: 'black',
+                                borderColor:'#E5E7E9',
+                                borderRadius:10,
+                                borderWidth:1,
+                                paddingLeft:10,
+                                paddingTop:15,
+                        }}
+                        onChangeText={text => this.setState({message: text})}   
+                    />
+                    <RkButton
+                        disabled={this.state.message==''}
+                        style={{backgroundColor: 'white',topBorderWidth:1, borderColor:'#E5E7E9', width:350, marginTop:16, marginLeft:15}}
+                        onPress={this.sendMessage.bind(this)}
+                        contentStyle={this.state.message==''? style={color: 'grey', fontSize:20}: style={color: 'tomato', fontSize:20}}>Send</RkButton>
+                </RkAvoidKeyboard>      
+            </View>
             
             );
         }
@@ -179,6 +178,7 @@ headerContainer:{
     borderColor:'#F8F9F9',
     marginLeft:10,
     marginRight:50,
+    marginBottom:10,
 
 },
 headerContainerRight:{    
@@ -190,26 +190,29 @@ headerContainerRight:{
     borderColor:'#F8F9F9',
     marginLeft:50,
     marginRight:10,
+    marginBottom:10,
 
 },
 dateView:{
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginRight:5, marginBottom:5,
 },
 
 sendButton:{
     color:'#005b71',
     fontSize:17,
-    marginLeft:10,
-    marginTop:20,
+    height:30,
+    width:30,
 },
 
 sendDisabled:{
     color:'grey',
     fontSize:17,
-    marginLeft:10,
-    marginTop:20,
+    height:30,
+    width:30,
+
 },
 
 dateViewContainer:{
@@ -252,7 +255,6 @@ profileText:{
     marginLeft:10,
     marginTop:10,
     backgroundColor:'transparent',
-    height:40,
     width:280,
 
 },

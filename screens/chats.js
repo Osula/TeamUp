@@ -130,10 +130,10 @@ SwipeScrollEvent(allowParentScroll) {
     render() {
         return (
 
-    <ScrollView style={{backgroundColor:'white'}}scrollEnabled={this.state.allowVerticalScroll}>
+    <ScrollView style={{backgroundColor:'white'}} scrollEnabled={this.state.allowVerticalScroll}>
         
             <View style={styles.addChat}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('newChat')}>
                     <Text style={{color:'grey', fontSize:17}}> Create new chat</Text>
                 </TouchableOpacity>
             </View>

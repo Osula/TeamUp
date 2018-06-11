@@ -196,7 +196,11 @@ export default class page2 extends React.Component {
                     <Image style={styles.headerContainer} source={{uri:'http://www.sagennext.com/wp-content/uploads/2013/01/DNA-Strand.jpg'}}>
                     </Image>
                 </View>
-                    
+                <View style={{flex:1, alignItems:'flex-end'}}>
+                    <TouchableOpacity>
+                        <Text style={{color:'grey', fontSize:15, fontWeight:'bold', marginTop:10, marginRight:10}}>Edit</Text>
+                    </TouchableOpacity>
+                </View>  
                 <View style={styles.descriptionBoxTitle}>
                     <View style={styles.projectTitle}>
                         <Text style={styles.projectTitleStyle}>DNA and health</Text>
@@ -389,13 +393,13 @@ headerContainer:{
 projectTitle:{
     alignItems:'center',
     marginBottom:10,
-    marginTop:10,
 },
 
 projectSubTitle:{
     marginLeft:30,
     height:80,
     marginTop:10,
+    backgroundColor:'red',
 },
 
 projectTitleStyle:{
@@ -408,12 +412,11 @@ descriptionBoxTitle:{
     padding:10,
     borderBottomWidth:1,
     borderColor:'#F8F9F9',
-    margin:10,
 },
 
 descriptionBox:{
     flexDirection:'row',
-    padding:19,
+    padding:20,
     borderBottomWidth:1,
     borderColor:'#F8F9F9',
     height:110,
