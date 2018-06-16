@@ -48,7 +48,7 @@ export default class page2 extends React.Component {
                     image:"http://massmoca.org/wp-content/uploads/2018/01/1920x1920.jpg",
                 },
                 {
-                    user: "Theatre",
+                    user: "Lorem Ipsum",
                     time:"17.42PM",
                     newMessageIcon: '',
                     message:"I'll take care of the images",
@@ -134,6 +134,7 @@ SwipeScrollEvent(allowParentScroll) {
         
             <View style={styles.addChat}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('newChat')}>
+                {console.log(' enter new chat card')}
                     <Text style={{color:'grey', fontSize:17}}> Create new chat</Text>
                 </TouchableOpacity>
             </View>

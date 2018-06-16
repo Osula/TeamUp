@@ -58,22 +58,11 @@ export default class page2 extends React.Component {
                 },
             ],
 
-            taskSwipeBtn : [{
-                text:'Remove',
-                backgroundColor: '#34495E',
-                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
-            }],
-
         };
 
 
     }
 
-SwipeScrollEvent(allowParentScroll) {
-    if (this.state.allowVerticalScroll != allowParentScroll) {
-        this.setState({'allowVerticalScroll': allowParentScroll})
-    }
-}
 
 hideShowCheck(element){
     this.setState({checked: true})
@@ -97,8 +86,8 @@ renderNextButton(){
     renderChat(element, i) {
         return (
             <View key={i}>
-                <Swipeout buttonWidth={120} scroll={this.SwipeScrollEvent.bind(this)} right={this.state.taskSwipeBtn}>
-                    <View  style={styles.headerContainer}>
+    
+                <View  style={styles.headerContainer}>
                     <CheckBox
                         center
                         checkedIcon='dot-circle-o'
@@ -108,32 +97,31 @@ renderNextButton(){
                         checked={element.checked}
                         checkedColor={'tomato'}
                     />
-                        <View style={styles.profilePic}>
-                            <Image style={styles.roundPic} source={{uri:element.image}}></Image>
-                        </View>
+                    <View style={styles.profilePic}>
+                        <Image style={styles.roundPic} source={{uri:element.image}}></Image>
+                    </View>
 
-                        <View style={styles.profileTime}>
-                            <View>
-                                <View style={styles.profileText}>
-                                    <View style={{flexDirection:'row'}}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('FriendProfile')}>
-                                            <View>
-                                                <Text style={styles.users}>{element.user}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <Text style={{fontSize:13, color:'grey', marginTop:4, marginLeft:5}}>({element.userName})</Text>
-                                    </View>
+                    <View style={styles.profileTime}>
+                        <View>
+                            <View style={styles.profileText}>
+                                <View style={{flexDirection:'row'}}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('FriendProfile')}>
+                                        <View>
+                                            <Text style={styles.users}>{element.user}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <Text style={{fontSize:13, color:'grey', marginTop:4, marginLeft:5}}>({element.userName})</Text>
                                 </View>
-                                <View>
-                                    <View style={styles.messages}>
-                                        <Text style={styles.messageStyle}>{element.bio}</Text>
-                                    </View>
+                            </View>
+                            <View>
+                                <View style={styles.messages}>
+                                    <Text style={styles.messageStyle}>{element.bio}</Text>
                                 </View>
                             </View>
                         </View>
-                        
                     </View>
-                </Swipeout>
+                        
+                </View>
             </View>
         )
             

@@ -22,6 +22,7 @@ import settings from './settings';
 import newChat from './newChat';
 import createChat from './createChat';
 
+
 const HomeStack = StackNavigator(
     {
       Home: {

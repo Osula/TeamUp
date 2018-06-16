@@ -15,8 +15,18 @@ const {width, height} = Dimensions.get('window');
 
 export default class page2 extends React.Component {
     static navigationOptions = {
-        title: 'Biology Team',
-    };
+        headerTitle:(
+            <View style={{flex:1, height:70, flexDirection:'row'}}>
+            <View style={{flexDirection:'column',marginTop:18, marginLeft:90, alignItems:'center'}}>
+                <Text style={{color:'black', fontSize:18,fontWeight:'bold'}}>Biology </Text>
+                <Text style={{color:'grey', fontSize:14,}}>3 users </Text>
+            </View>
+                <Image
+                    source={require('./img3.jpg')}
+                    style={{width:40, height:40, borderRadius:20, marginTop:13, marginLeft:90}}
+                />
+            </View>)
+            };
 
     constructor() {
 
@@ -25,6 +35,7 @@ export default class page2 extends React.Component {
         this.state = {
 
             hasFocus: false,
+            ref:'scrollView',
             cards : [
                 {
                     tag:"John",
@@ -55,6 +66,7 @@ export default class page2 extends React.Component {
 
      setFocus (hasFocus) {
         this.setState({hasFocus});
+        
     }
      async sendMessage() {
 
@@ -131,7 +143,8 @@ export default class page2 extends React.Component {
     render() {
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
-                <ScrollView style={this.state.hasFocus? style={marginBottom:240} : style={marginBottom:20}}>
+                <ScrollView ref="scrollView" onContentSizeChange={(width,height) => this.refs.scrollView.scrollToEnd()} 
+                    style={this.state.hasFocus? style={marginBottom:240} : style={marginBottom:20}}>
                     {this.renderCards(this.state.cards)}
                 </ScrollView>
                 <RkAvoidKeyboard>
@@ -161,11 +174,10 @@ export default class page2 extends React.Component {
                         onPress={this.sendMessage.bind(this)}
                         contentStyle={this.state.message==''? style={color: 'grey', fontSize:20}: style={color: 'tomato', fontSize:20}}>Send</RkButton>
                 </RkAvoidKeyboard>      
-            </View>
-            
-            );
-        }
+            </View>   
+        );
     }
+}
 
     const styles = StyleSheet.create({
 
