@@ -1,5 +1,5 @@
 # TeamUp
-While working on projects from work or school, people comunicate in different ways. With this app, we're trying to create an enviroment specifically made for projects.
+While working on projects for work or school, people communicate in different ways. With this app, we're trying to create an environment specifically made for projects.
 
 
 
