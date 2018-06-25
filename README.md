@@ -9,4 +9,4 @@ Every user, may have several projects, and tasks for each one of those projects.
 Once finished, you close the the task. And once all the tasks are finished, you may close the project.
 ...To be continued
 
-![](screens/TaskGif.gif)
+![](screens/TaskGif)
