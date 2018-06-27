@@ -73,11 +73,61 @@ hideShowCheck(element){
     }
 }
 
+checkedGroup(){
+    var contacts=this.state.contacts;
+
+    var numberOfCheckedElements = 0;
+
+    for (var i=0; i<contacts.length; i++) {
+        
+        if (contacts[i].checked === true){
+            numberOfCheckedElements++;
+        }
+    }
+
+    if (numberOfCheckedElements == 0) {
+        return null;
+    } else if (numberOfCheckedElements == 1) {
+        return(
+            this.renderNextButton()
+        )
+    } else if (numberOfCheckedElements > 1) {
+        return(
+            this.groupButton()
+        )
+    }
+
+    // new loop
+
+    // var pozicioniElementitNeArray = 0;
+
+    // while (pozicioniElementitNeArray < contacts.length) {
+
+    //     // do code
+    //     if (contacts[pozicioniElementitNeArray].checked=== true){
+    //         this.groupButton()
+    //     }
+    //     else this.renderNextButton()
+
+    //     pozicioniElementitNeArray = pozicioniElementitNeArray + 1;
+    // }
+
+}
+
 renderNextButton(){
     return(
-        <View style={{height:40, flex:1, alignItems:'flex-end', padding:10, borderBottomWidth:1, borderColor:'#F2F4F4'}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('createChat')}>
+        <View style={{height:50, flex:1, alignItems:'flex-end', padding:10, borderBottomWidth:1, borderColor:'#F2F4F4'}}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('singlechat')}>
                 <Text style={{fontSize:18,fontWeight:'bold', color:'#2471A3'}}>Next</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+groupButton(){
+    return(
+        <View style={{height:50, flex:1, alignItems:'flex-end', padding:10, borderBottomWidth:1, borderColor:'#F2F4F4'}}>
+            <TouchableOpacity style={{marginBottom:4}}onPress={() => this.props.navigation.navigate('createChat')}>
+                <Text style={{fontSize:18,fontWeight:'bold', color:'#2471A3'}}>Create group</Text>
             </TouchableOpacity>
         </View>
     )
@@ -140,7 +190,8 @@ renderNextButton(){
     <ScrollView style={{backgroundColor:'white'}}scrollEnabled={this.state.allowVerticalScroll}>
         
         <SearchInput items={this.state.contacts}/>
-        {this.state.checked? this.renderNextButton() : null}
+        {this.checkedGroup()}
+        
         {this.renderChats(this.state.contacts)}
 
     </ScrollView>

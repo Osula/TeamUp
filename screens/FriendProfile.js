@@ -287,7 +287,7 @@ profilepic:{
     height:90,
     marginTop:-15,
     marginRight:5,
-    borderRadius:40,
+    borderRadius:43,
     borderColor:'white',
     borderWidth:3,
 },

@@ -52,14 +52,17 @@ export default class page2 extends React.Component {
             <View style={{marginRight:10}}>
                 <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('mytasks')}>
                     <FontAwesome name={'tasks'} color={'#5D6D7E'} size={50}/>
+                    <View style={{height:25, width:25, borderRadius:20, backgroundColor:'tomato', marginBottom:10, alignSelf:'flex-end'}}> <Text style={{color:'white', fontWeight:'bold', alignSelf:'center', marginTop:3}}>3</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('questions')}>
                     <FontAwesome name={'question-circle-o'} size={50} color={'#5D6D7E'}/>
+                    <View style={{height:25, width:25, borderRadius:20, backgroundColor:'tomato', marginBottom:10, alignSelf:'flex-end'}}> <Text style={{color:'white', fontWeight:'bold', alignSelf:'center', marginTop:3}}>9+</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.miniMenuSingle} onPress={() => this.props.navigation.navigate('chats')}>
-                    <Entypo size={50} color={'#5D6D7E'} name={'chat'}/>
+                    <Entypo size={47} color={'#5D6D7E'} name={'chat'}/>
+                    <View style={{height:25, width:25, borderRadius:20, backgroundColor:'tomato', marginBottom:10, alignSelf:'flex-end'}}> <Text style={{color:'white', fontWeight:'bold', alignSelf:'center', marginTop:3}}>2</Text></View>
                 </TouchableOpacity>
             </View>
             <View style={{marginLeft:10}}>
@@ -105,7 +108,7 @@ profilepic:{
     height:90,
     marginTop:-15,
     marginRight:5,
-    borderRadius:40,
+    borderRadius:43,
     borderColor:'white',
     borderWidth:3,
 },

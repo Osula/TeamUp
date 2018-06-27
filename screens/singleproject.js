@@ -9,7 +9,9 @@ import FriendProfile from './FriendProfile';
 import ViewMoreText from 'react-native-read-more-text';
 import {RkButton} from 'react-native-ui-kitten';
 import NewTask from './newtask';
-
+import NewTeam from './NewTeam';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 
 export default class page2 extends React.Component {
@@ -23,6 +25,10 @@ export default class page2 extends React.Component {
         this.state = {
             viewToRender: 'TODO',
             modalVisible: false,
+            isDateTimePickerVisible: false,
+            isTeamModalVisible: false,
+            dueDate:'',
+            team: ['John', 'Ipsum', 'Lorem', 'Eni'],
 
             SingleTodo: [{
                 taskNumber:'#1',
@@ -63,7 +69,25 @@ export default class page2 extends React.Component {
         this.setState({modalVisible: visible});
       }
 
-      renderNewTask() {
+    setDatePickerVisible(visible){
+        this.setState({isDatePickerModalVisible: visible})
+    }
+
+    setTeamModalVisible(visible){
+        this.setState({isTeamModalVisible: visible})
+    }
+
+    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+    _handleDatePicked = (date) => {
+        console.log('A date has been picked: ', date);
+        this.setState({dueDate: moment(date).format('DD/MM/YYYY')})
+        this._hideDateTimePicker();
+      };
+
+    renderNewTask() {
         return (
             <Modal
                 animationType="slide"
@@ -74,6 +98,33 @@ export default class page2 extends React.Component {
                 }}>
                 <NewTask close={(newTask) => this.addNewTask(newTask)}/>
         </Modal>
+        )
+    }
+
+    renderNewTeam(){
+        return(
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.isTeamModalVisible}
+                onRequestClose={() => {
+                    alert('Modal has been closed.');
+                }}>
+            <NewTeam close={(newTeam) => this.addNewTeam(newTeam)} members={this.state.team}/>
+        
+        </Modal>
+        )
+    }
+    renderNewDate(){
+        return(
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.isDatePickerModalVisible}
+                onRequestClose={() => {
+                    alert('Modal has been closed.');
+                }}>
+            </Modal>
         )
     }
 
@@ -89,7 +140,15 @@ export default class page2 extends React.Component {
         this.setState({SingleTodo: newTaskList})
         this.setState({modalVisible: false})
     }
-
+    addNewTeam(newTeam){
+        if (newTeam == undefined || newTeam == null){
+            this.setState({isTeamModalVisible: false})
+            return
+        }
+        var newTeamList = newTeam;
+        this.setState({team: newTeamList})
+        this.setState({isTeamModalVisible: false})
+    }
 
     renderClosed(element, i) {
         return (
@@ -220,23 +279,36 @@ export default class page2 extends React.Component {
 
                 <View style={styles.teamProject}>
                     <View style={styles.teamProjectStyle}>
+                    {this.renderNewTeam()}
+                    <TouchableOpacity onPress={() => this.setState({isTeamModalVisible: true})}>
                         <Text style={styles.descriptionText}>Team:  </Text>
-                        <Text style={styles.descriptionSubText}>3</Text>
+                    </TouchableOpacity>
+                        <Text style={styles.descriptionSubText}>{this.state.team.length}</Text>
                     </View>
                 </View>
 
-                <View style={styles.dateProject}>
-                    <View style={styles.dateProjectSub}>
-                        <Text style={styles.descriptionText}>Due date:</Text>
-                        <Text style={styles.descriptionSubText}>20/05/2018</Text>
-                    </View>
+                <View style={styles.dateProject}>  
+                <TouchableOpacity style={styles.dateProjectSub} onPress={this._showDateTimePicker}>
+                    <Text style={styles.descriptionSubText}>Due date:  </Text>
+                    <Text style={{color:'#85929E', marginTop:10, marginLeft:7}}>
+                        {this.state.dueDate==''? '20/09/2018': this.state.dueDate.toString()}
+                    </Text>
+                </TouchableOpacity>
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDateTimePicker}
+                    mode='date'
+                    date={this.state.date}
+                    
+                />
                 </View>
 
                 <View style={styles.addTask}>
                     <View style={styles.addTaskStyle}>
                         <Text style={styles.descriptionText} >Add task</Text>
                         {this.renderNewTask()}
-                        <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+                        <TouchableOpacity style={{marginTop:8}} onPress={() => this.setState({modalVisible: true})}>
                             <Entypo  name={"circle-with-plus"} size={20} color={"tomato"}/>
                         </TouchableOpacity>
                     </View>
@@ -429,9 +501,11 @@ descriptionText:{
 },
 
 descriptionSubText:{
-    color:'#AEB6BF',
-    fontSize:13,
-    
+    color:'#85929E',
+    fontWeight:'bold',
+    marginLeft:4,
+    fontSize:16,
+    marginTop:10,
 },
 
 teamProject:{
@@ -445,13 +519,13 @@ teamProjectStyle:{
     height:50,
     width:80,
     alignItems:'center',
-    marginTop:20,
+    marginTop:18,
 },
 
 dateProject:{
     height:80,
     width:130,
-    padding:20,
+    padding:10,
     borderColor:'#F8F9F9',
     borderRightWidth:1,
 },
